@@ -4,7 +4,7 @@ const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const routerUsers = require('./routes/users');
-const routerCards = require('./routes/cards');
+const routerMovies = require('./routes/movies');
 const centralError = require('./errors/centralError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const Error404 = require('./errors/error404');
@@ -23,8 +23,8 @@ const options = {
     'localhost:3001',
     'http://localhost:3001',
     'https://localhost:3001',
-    // 'http://kirill-mesto-cloud.nomoredomains.rocks',
-    // 'https://kirill-mesto-cloud.nomoredomains.rocks',
+    'http://moviepicker.nomoredomains.nomoredomains.work',
+    'https://moviepicker.nomoredomains.nomoredomains.work',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
