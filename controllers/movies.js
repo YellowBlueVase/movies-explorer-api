@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable consistent-return */
-/* eslint-disable no-underscore-dangle */
 const Movie = require('../models/movies');
 // Bad request
 const ERROR_CODE_400 = require('../errors/error400');
@@ -17,11 +14,32 @@ module.exports.getMovies = (req, res, next) => {
 
 module.exports.createMovie = (req, res, next) => {
   const {
-    country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
   } = req.body;
   const owner = { _id: req.user._id };
   Movie.create({
-    country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId, owner,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+    owner,
   })
     .then((movie) => res.send({ data: movie }))
     .catch((err) => {

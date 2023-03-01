@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const ERROR_CODE_401 = require('../errors/error401');

@@ -20,7 +20,7 @@ router.post('/movies', auth, celebrate(
       nameRU: Joi.string().required(),
       nameEN: Joi.string().required(),
       thumbnail: Joi.string().required().regex(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/),
-      movieId: Joi.string().required().hex().length(24),
+      movieId: Joi.string().required(),
     }).unknown(true),
   },
 ), createMovie);
