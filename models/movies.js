@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const { WRONG_URL } = require('../utils/constants');
 
 // Опишем схему:
 const movieSchema = new mongoose.Schema({
@@ -28,15 +29,15 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (value) => validator.isURL(value),
-      message: 'Некорректный URL',
+      message: WRONG_URL,
     },
   },
-  trailerLink: {
+  trailer: {
     type: String,
     required: true,
     validate: {
       validator: (value) => validator.isURL(value),
-      message: 'Некорректный URL',
+      message: WRONG_URL,
     },
   },
   thumbnail: {
@@ -44,7 +45,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (value) => validator.isURL(value),
-      message: 'Некорректный URL',
+      message: WRONG_URL,
     },
   },
   owner: {
@@ -53,8 +54,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   movieId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'movie',
+    type: Number,
     required: true,
   },
   nameRU: {

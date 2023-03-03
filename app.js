@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const routerUsers = require('./routes/users');
-const routerMovies = require('./routes/movies');
+const { default: helmet } = require('helmet');
+const routerIndex = require('./routes/index');
 const centralError = require('./errors/centralError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const Error404 = require('./errors/error404');
+
+const limiter = require('./middlewares/limiter');
+const { CRASH_TEST } = require('./utils/constants');
 
 mongoose.set('strictQuery', true);
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
@@ -35,20 +37,17 @@ const options = {
 app.use('*', cors(options));
 
 app.use(requestLogger);
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
 app.use(cookieParser());
+app.use(limiter);
 app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error(CRASH_TEST);
   }, 0);
 });
-app.use('/', routerUsers);
-app.use('/', routerMovies);
-app.use('*', (req, res, next) => {
-  next(new Error404('Такая страница не существует, пожалуйста, вернитесь на главную.'));
-});
+app.use(routerIndex);
 app.use(errorLogger);
 app.use(errors());
 app.use(centralError);

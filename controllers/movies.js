@@ -5,6 +5,7 @@ const ERROR_CODE_400 = require('../errors/error400');
 const ERROR_CODE_403 = require('../errors/error403');
 // Not Found
 const ERROR_CODE_404 = require('../errors/error404');
+const { ERROR_MESSAGE_403, ERROR_MESSAGE_400, ERROR_MESSAGE_404 } = require('../utils/constants');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
@@ -44,7 +45,7 @@ module.exports.createMovie = (req, res, next) => {
     .then((movie) => res.send({ data: movie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ERROR_CODE_400('Карточка не создана, проверьте корректность запроса.'));
+        next(new ERROR_CODE_400(ERROR_MESSAGE_400));
       } else {
         next(err);
       }
@@ -52,14 +53,14 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.cardId)
+  Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        throw new ERROR_CODE_404('Карточка не найдена, проверьте корректность запроса.');
+        throw new ERROR_CODE_404(ERROR_MESSAGE_404);
       }
       const owner = movie.owner.toString();
       if (req.user._id !== owner) {
-        throw new ERROR_CODE_403('Вы не можете удалить чужую карточку.');
+        throw new ERROR_CODE_403(ERROR_MESSAGE_403);
       }
       return Movie.deleteOne(movie);
     })
@@ -68,7 +69,7 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new ERROR_CODE_400('Карточка не удалена, проверьте корректность запроса.'));
+        next(new ERROR_CODE_400(ERROR_MESSAGE_400));
       } else {
         next(err);
       }

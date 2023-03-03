@@ -8,6 +8,9 @@ const ERROR_CODE_400 = require('../errors/error400');
 const ERROR_CODE_404 = require('../errors/error404');
 // Conflict
 const ERROR_CODE_409 = require('../errors/error409');
+const {
+  ERROR_MESSAGE_400, ERROR_MESSAGE_409, ERROR_MESSAGE_404, LOGOUT_MESSAGE,
+} = require('../utils/constants');
 
 const opts = {
   new: true,
@@ -34,9 +37,9 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ERROR_CODE_400('Новый пользователь не создан, проверьте корректность запроса.'));
-      } else if (err.code === '11000') {
-        next(new ERROR_CODE_409('Пользователь с таким email уже существует, войдите или используйте другой email для регистрации.'));
+        next(new ERROR_CODE_400(ERROR_MESSAGE_400));
+      } else if (err.code === 11000) {
+        next(new ERROR_CODE_409(ERROR_MESSAGE_409));
       } else {
         next(err);
       }
@@ -58,7 +61,7 @@ module.exports.getProfile = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new ERROR_CODE_404('Пользователь по указанному _id не найден.');
+        throw new ERROR_CODE_404(ERROR_MESSAGE_404);
       }
       res.send({ data: user });
     })
@@ -74,15 +77,22 @@ module.exports.updateProfile = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        throw new ERROR_CODE_404('Пользователь по указанному _id не найден.');
+        throw new ERROR_CODE_404(ERROR_MESSAGE_404);
       }
       res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        next(new ERROR_CODE_400('Переданы некорректные данные, проверьте корректность запроса.'));
+        next(new ERROR_CODE_400(ERROR_MESSAGE_400));
       } else {
         next(err);
       }
     });
+};
+
+module.exports.logout = (req, res) => {
+  res.clearCookie('jwt');
+  res.send({
+    message: LOGOUT_MESSAGE,
+  });
 };
