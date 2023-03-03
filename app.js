@@ -1,4 +1,5 @@
 const express = require('express');
+const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
@@ -12,7 +13,7 @@ const limiter = require('./middlewares/limiter');
 const { CRASH_TEST } = require('./utils/constants');
 
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
 });
 
