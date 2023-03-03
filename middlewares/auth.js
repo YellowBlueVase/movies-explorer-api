@@ -20,5 +20,5 @@ module.exports = (req, res, next) => {
     return next(new ERROR_CODE_401(ERROR_MESSAGE_401));
   }
   req.user = payload; // записываем пейлоуд в объект запроса
-  next(); // пропускаем запрос дальше
+  return next(); // пропускаем запрос дальше
 };

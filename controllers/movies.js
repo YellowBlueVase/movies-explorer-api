@@ -8,7 +8,7 @@ const ERROR_CODE_404 = require('../errors/error404');
 const { ERROR_MESSAGE_403, ERROR_MESSAGE_400, ERROR_MESSAGE_404 } = require('../utils/constants');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: req.user._id })
     .then((movies) => res.send({ data: movies }))
     .catch(next);
 };

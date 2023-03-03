@@ -84,6 +84,8 @@ module.exports.updateProfile = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new ERROR_CODE_400(ERROR_MESSAGE_400));
+      } else if (err.code === 11000) {
+        next(new ERROR_CODE_409(ERROR_MESSAGE_409));
       } else {
         next(err);
       }
