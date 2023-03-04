@@ -9,6 +9,7 @@ const WRONG_EMAIL = 'Некорректно введен email адрес';
 const WRONG_URL = 'Некорректный URL';
 const LIMITER_ALERT = 'Слишком много попыток входа - попробуйте через 15 минут';
 const CRASH_TEST = 'Сервер сейчас упадёт';
+const MONGO_URL = 'mongodb://localhost:27017/bitfilmsdbdev';
 
 module.exports = {
   ERROR_MESSAGE_400,
@@ -22,4 +23,5 @@ module.exports = {
   WRONG_URL,
   LIMITER_ALERT,
   CRASH_TEST,
+  MONGO_URL,
 };

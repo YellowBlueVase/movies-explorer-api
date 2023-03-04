@@ -9,10 +9,10 @@ const centralError = require('./errors/centralError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const limiter = require('./middlewares/limiter');
-const { CRASH_TEST } = require('./utils/constants');
+const { CRASH_TEST, MONGO_URL } = require('./utils/constants');
 
 mongoose.set('strictQuery', true);
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.NODE_ENV === 'production' ? process.env.MONGO_URL : MONGO_URL, {
   useNewUrlParser: true,
 });
 
